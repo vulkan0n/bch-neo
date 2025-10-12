@@ -1,114 +1,760 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Intro con sonido y loader</title>
-<style>
-  body {
-    margin: 0;
-    overflow: hidden;
-    background: black;
-    color: white;
-    font-family: sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  #loader {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  #progressBar {
-    width: 200px;
-    height: 8px;
-    background: #333;
-    border-radius: 4px;
-    overflow: hidden;
-    margin-top: 10px;
-  }
-  #progress {
-    height: 100%;
-    width: 0%;
-    background: #00ff88;
-    transition: width 0.2s;
-  }
-  #playBtn {
-    display: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    background: #00ff88;
-    color: black;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  #playBtn:hover { background: #00cc66; }
-  #intro, #content { display: none; }
-  #intro video {
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-  }
-</style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bitcoin Cash - Paga rápido. Paga barato. Paga tú.</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-<div id="loader">
-  <div>Cargando video...</div>
-  <div id="progressBar"><div id="progress"></div></div>
-  <button id="playBtn">Reproducir</button>
-</div>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background: #0a0a0a;
+        color: #e0e0e0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, sans-serif;
+        line-height: 1.6;
+      }
 
-<div id="intro">
-  <video id="introVideo">
-    <source src="bch-transaction.mp4" type="video/mp4">
-    Tu navegador no soporta el video.
-  </video>
-</div>
+      /* Loader y Video */
+      #loader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background: black;
+      }
 
-<div id="content">
-  <h1>Bienvenido a mi página</h1>
-  <p>Contenido principal después del video.</p>
-</div>
+      #loader > div:first-child {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: #00ff88;
+      }
 
-<script>
-  const video = document.getElementById('introVideo');
-  const loader = document.getElementById('loader');
-  const progress = document.getElementById('progress');
-  const playBtn = document.getElementById('playBtn');
-  const intro = document.getElementById('intro');
-  const content = document.getElementById('content');
+      #progressBar {
+        width: 300px;
+        height: 10px;
+        background: #1a1a1a;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-top: 10px;
+      }
 
-  // Simulación de barra de progreso (no hay API exacta de progreso de video local)
-  let fakeProgress = 0;
-  const interval = setInterval(() => {
-    fakeProgress += 5;
-    if (fakeProgress > 100) fakeProgress = 100;
-    progress.style.width = fakeProgress + '%';
-  }, 100);
+      #progress {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #00ff88, #00cc66);
+        transition: width 0.3s ease;
+      }
 
-  video.addEventListener('canplaythrough', () => {
-    clearInterval(interval);
-    progress.style.width = '100%';
-    playBtn.style.display = 'block';
-  });
+      #playBtn {
+        display: none;
+        margin-top: 30px;
+        padding: 15px 40px;
+        font-size: 18px;
+        font-weight: 600;
+        background: linear-gradient(135deg, #00ff88, #00cc66);
+        color: black;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
 
-  playBtn.addEventListener('click', () => {
-    loader.style.display = 'none';
-    intro.style.display = 'block';
-    video.play();
-  });
+      #playBtn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+      }
 
-  video.addEventListener('ended', () => {
-    intro.style.display = 'none';
-    content.style.display = 'block';
-    document.body.style.overflow = 'auto';
-  });
-</script>
+      #intro {
+        display: none;
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+      }
 
-</body>
+      #intro video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Contenido Principal */
+      #content {
+        display: none;
+        width: 100%;
+        max-width: 100%;
+        background: #0a0a0a;
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 2rem;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(0, 255, 136, 0.1) 0%,
+          transparent 70%
+        );
+        animation: pulse 4s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.5;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.3;
+        }
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 8vw, 5rem);
+        font-weight: 900;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #00ff88, #00cc66);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero .subtitle {
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        color: #b0b0b0;
+        margin-bottom: 2rem;
+        max-width: 600px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Secciones */
+      .section {
+        padding: 5rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section:nth-child(even) {
+        background: #0f0f0f;
+      }
+
+      .section h2 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        margin-bottom: 2rem;
+        text-align: center;
+        color: #00ff88;
+      }
+
+      .section h3 {
+        font-size: 1.5rem;
+        margin: 2rem 0 1rem;
+        color: #00cc66;
+      }
+
+      /* Cards y Features */
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+      }
+
+      .feature-card {
+        background: linear-gradient(135deg, #1a1a1a, #222);
+        padding: 2rem;
+        border-radius: 15px;
+        border: 1px solid #333;
+        transition: all 0.3s;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        border-color: #00ff88;
+        box-shadow: 0 10px 30px rgba(0, 255, 136, 0.1);
+      }
+
+      .feature-card .icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      /* Steps */
+      .steps {
+        counter-reset: step-counter;
+        margin: 2rem 0;
+      }
+
+      .step {
+        background: #1a1a1a;
+        padding: 2rem;
+        margin: 1.5rem 0;
+        border-radius: 10px;
+        border-left: 4px solid #00ff88;
+        position: relative;
+        counter-increment: step-counter;
+      }
+
+      .step::before {
+        content: counter(step-counter);
+        position: absolute;
+        left: -20px;
+        top: 2rem;
+        width: 40px;
+        height: 40px;
+        background: #00ff88;
+        color: black;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+
+      .step h4 {
+        color: #00ff88;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+      }
+
+      /* Links y Botones */
+      a {
+        color: #00ff88;
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+
+      a:hover {
+        color: #00cc66;
+        text-decoration: underline;
+      }
+
+      .cta-button {
+        display: inline-block;
+        padding: 15px 30px;
+        background: linear-gradient(135deg, #00ff88, #00cc66);
+        color: black;
+        border-radius: 50px;
+        font-weight: 600;
+        margin: 1rem 0;
+        transition: all 0.3s;
+        text-decoration: none !important;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        color: black;
+      }
+
+      /* Community Links */
+      .community-links {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .community-link {
+        background: #1a1a1a;
+        padding: 1.5rem;
+        border-radius: 10px;
+        border: 1px solid #333;
+        transition: all 0.3s;
+      }
+
+      .community-link:hover {
+        border-color: #00ff88;
+        transform: translateX(5px);
+      }
+
+      /* Donation Section */
+      .donation-box {
+        background: linear-gradient(135deg, #1a1a1a, #0f0f0f);
+        border: 2px solid #00ff88;
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        margin: 3rem 0;
+      }
+
+      .donation-address {
+        background: #0a0a0a;
+        padding: 1rem;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        word-break: break-all;
+        margin: 1rem 0;
+        color: #00ff88;
+        font-size: 0.9rem;
+        border: 1px solid #333;
+      }
+
+      /* Footer */
+      footer {
+        background: #000;
+        padding: 3rem 2rem;
+        text-align: center;
+        border-top: 1px solid #333;
+      }
+
+      footer p {
+        color: #888;
+        line-height: 1.8;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .section {
+          padding: 3rem 1rem;
+        }
+
+        .step {
+          padding-left: 3rem;
+        }
+
+        .step::before {
+          left: 0;
+        }
+      }
+
+      /* Blockquote styling */
+      blockquote {
+        border-left: 4px solid #00ff88;
+        padding-left: 1rem;
+        margin: 1rem 0;
+        font-style: italic;
+        color: #b0b0b0;
+      }
+
+      /* List styling */
+      ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      ul li {
+        position: relative;
+        padding-left: 2rem;
+        margin: 0.5rem 0;
+      }
+
+      ul li::before {
+        content: "▸";
+        position: absolute;
+        left: 0;
+        color: #00ff88;
+        font-weight: bold;
+      }
+
+      #skipBtn {
+        position: absolute;
+        bottom: 30px;
+        right: 30px;
+        padding: 12px 25px;
+        font-size: 16px;
+        background: rgba(0, 0, 0, 0.7);
+        color: #00ff88;
+        border: 2px solid #00ff88;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s;
+        z-index: 10;
+        backdrop-filter: blur(10px);
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+
+      #skipBtn:hover {
+        background: #00ff88;
+        color: black;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
+      }
+
+      /* Animación de entrada */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      #skipBtn {
+        animation: fadeInUp 0.5s ease-out 1s both; /* Aparece después de 1 segundo */
+      }
+
+      /* Para móviles, posición diferente */
+      @media (max-width: 768px) {
+        #skipBtn {
+          bottom: 20px;
+          right: 20px;
+          padding: 10px 20px;
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loader">
+      <div>⚡ Cargando video...</div>
+      <div id="progressBar"><div id="progress"></div></div>
+      <button id="playBtn">▶ Reproducir</button>
+    </div>
+
+    <div id="intro">
+      <video id="introVideo">
+        <source src="bch-transaction.mp4" type="video/mp4" />
+        Tu navegador no soporta el video.
+      </video>
+      <button id="skipBtn">Saltar video →</button>
+    </div>
+
+    <div id="content">
+      <!-- Hero Section -->
+      <section class="hero">
+        <h1>Bitcoin Cash: paga rápido. Paga barato. Paga tú.</h1>
+        <p class="subtitle">
+          Únete a la criptomoneda pensada para ser dinero digital —
+          transferencias instantáneas y comisiones bajas.
+        </p>
+      </section>
+
+      <!-- ¿Qué es BCH? -->
+      <section class="section">
+        <h2>¿Qué es Bitcoin Cash?</h2>
+        <p
+          style="
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-size: 1.2rem;
+          "
+        >
+          Bitcoin Cash (BCH) es una criptomoneda diseñada para pagos cotidianos:
+          confirmaciones rápidas, comisiones bajas y una comunidad enfocada en
+          la usabilidad. Nació en 2017 como una solución orientada a la
+          escalabilidad para transacciones diarias.
+        </p>
+
+        <div class="features">
+          <div class="feature-card">
+            <div class="icon">⚡</div>
+            <h4>Transacciones rápidas</h4>
+            <p>Confirmaciones en segundos, ideal para comercios</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">💸</div>
+            <h4>Comisiones muy bajas</h4>
+            <p>Centavos o menos por transacción</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">🌐</div>
+            <h4>Código abierto y descentralizado</h4>
+            <p>Sin control centralizado, verdadera libertad financiera</p>
+          </div>
+        </div>
+
+        <div style="text-align: center">
+          <a href="https://whybitcoincash.com/es" class="cta-button"
+            >Aprendé más →</a
+          >
+        </div>
+      </section>
+
+      <!-- Cómo empezar -->
+      <section class="section">
+        <h2>🚀 En 5 minutos: tener tu primer BCH</h2>
+
+        <div class="steps">
+          <div class="step">
+            <h4>Elegí una billetera</h4>
+            <p>
+              Te recomendamos dos excelentes opciones no custodiales (vos tenés
+              el control total de tus fondos):
+            </p>
+            <ul style="margin-top: 1rem">
+              <li>
+                <strong
+                  ><a
+                    href="https://play.google.com/store/apps/details?id=cash.selene.app"
+                    >Selene Wallet</a
+                  ></strong
+                >
+                — una billetera moderna, rápida y fácil de usar. Ideal para
+                recibir, enviar y administrar tus BCH sin complicaciones.
+              </li>
+              <li>
+                <strong
+                  ><a
+                    href="https://play.google.com/store/apps/details?id=app.purelypeer.cash&hl=en-US"
+                    >PurelyPeer</a
+                  ></strong
+                >
+                — la billetera definitiva para descubrir cashdrops escondidos y
+                ganar Bitcoin Cash.
+              </li>
+            </ul>
+          </div>
+
+          <div class="step">
+            <h4>Conseguí BCH</h4>
+            <p>
+              Podés comprarlos en un exchange local, recibirlos de un amigo o
+              ganarlos participando en cashdrops con PurelyPeer.
+            </p>
+          </div>
+
+          <div class="step">
+            <h4>Protegé tu semilla</h4>
+            <p>
+              Guardá tu frase de recuperación en papel, nunca en capturas de
+              pantalla ni servicios en la nube.
+            </p>
+          </div>
+
+          <div class="step">
+            <h4>Probá una transacción</h4>
+            <p>
+              Enviá una pequeña cantidad (por ejemplo, 0.001 BCH) para
+              experimentar la velocidad y las bajas comisiones.
+            </p>
+          </div>
+
+          <div class="step">
+            <h4>Empezá a usarlo</h4>
+            <p>
+              Usá BCH para pagar, donar o invitar un café — directamente, sin
+              intermediarios.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comercios -->
+      <section class="section">
+        <h2>🏪 Aceptá Bitcoin Cash en tu negocio</h2>
+        <p
+          style="
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+          "
+        >
+          Cada vez más emprendedores, locales y profesionales independientes
+          están aceptando
+          <strong>Bitcoin Cash (BCH)</strong> como forma de pago. Es rápido, sin
+          intermediarios y con comisiones casi nulas.
+        </p>
+
+        <h3 style="text-align: center">💡 ¿Por qué aceptar BCH?</h3>
+        <div class="features">
+          <div class="feature-card">
+            <p>✓ Cobrás al instante, sin contracargos</p>
+          </div>
+          <div class="feature-card">
+            <p>✓ Pagás comisiones mínimas (¡centavos o menos!)</p>
+          </div>
+          <div class="feature-card">
+            <p>✓ Ampliás tu base de clientes a toda la comunidad BCH</p>
+          </div>
+          <div class="feature-card">
+            <p>✓ Mostrás innovación y libertad financiera</p>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem">
+          <h3>🧭 Encontrá comercios que ya lo usan</h3>
+          <p style="margin: 1rem 0">
+            Descubrí todos los negocios, cafés y servicios que aceptan Bitcoin
+            Cash en Argentina:
+          </p>
+          <a href="https://mapa.bcharg.com/" class="cta-button"
+            >👉 Ver mapa de comercios</a
+          >
+        </div>
+      </section>
+
+      <!-- Comunidad -->
+      <section class="section">
+        <h2>📩 Conectate con la comunidad de Bitcoin Cash</h2>
+        <p
+          style="
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+          "
+        >
+          Bitcoin Cash crece gracias a su comunidad global y a proyectos locales
+          que impulsan su uso real como dinero. Sumate, aprendé y participá de
+          la revolución del dinero peer-to-peer.
+        </p>
+
+        <h3>🌎 Comunidades</h3>
+        <div class="community-links">
+          <div class="community-link">
+            <strong>🇦🇷 Bitcoin Cash Argentina</strong>
+            <p>Grupo de Telegram local</p>
+            <a href="https://t.me/BCHArgentina">Unirse al grupo →</a>
+          </div>
+          <div class="community-link">
+            <strong>🌐 Bitcoin Cash Internacional</strong>
+            <p>Comunidad global en Telegram</p>
+            <a href="https://t.me/bchchannel">Unirse al canal →</a>
+          </div>
+        </div>
+
+        <h3>📰 Noticias y actualizaciones</h3>
+        <div class="community-link">
+          <strong>🐦 Bitcoin Cash News en Español</strong>
+          <p>Seguí las últimas noticias en Twitter/X</p>
+          <a href="https://x.com/bchnewsespanol">Seguir en X →</a>
+        </div>
+
+        <h3>🎓 Educación y contenido</h3>
+        <div class="community-link">
+          <strong>▶️ Canal "La Economía P2P"</strong>
+          <p>
+            Explicaciones claras sobre cómo funciona Bitcoin Cash, cómo usarlo
+            en la vida diaria y su potencial económico.
+          </p>
+          <a
+            href="https://www.youtube.com/playlist?list=PL1xuNQ6OKjfGksvC0TcLXwVx7cOAbeo3c"
+            >Ver playlist completa →</a
+          >
+        </div>
+      </section>
+
+      <!-- Donaciones -->
+      <section class="section">
+        <div class="donation-box">
+          <h2>💚 Donaciones</h2>
+          <p>
+            Si te gusta el proyecto o querés apoyar la difusión de Bitcoin Cash,
+            podés enviar una donación:
+          </p>
+          <p><strong>Dirección BCH:</strong></p>
+          <div class="donation-address">
+            bitcoincash:qqmepxlpeq0ruzqf4kz7uwckhjgu67py45nrmyxcvm
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer>
+        <p>© 2025 — Sitio de promoción de Bitcoin Cash (BCH)</p>
+        <p>Proyecto comunitario sin fines de lucro</p>
+        <p>Hecho con 💚 en Argentina</p>
+      </footer>
+    </div>
+
+    <script>
+      const video = document.getElementById("introVideo");
+      const loader = document.getElementById("loader");
+      const progress = document.getElementById("progress");
+      const playBtn = document.getElementById("playBtn");
+      const intro = document.getElementById("intro");
+      const content = document.getElementById("content");
+      const skipBtn = document.getElementById("skipBtn");
+
+      // Función para mostrar el contenido principal
+      function showMainContent() {
+        intro.style.display = "none";
+        content.style.display = "block";
+        document.body.style.overflow = "auto";
+        document.body.style.height = "auto";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // Simulación de barra de progreso
+      let fakeProgress = 0;
+      const interval = setInterval(() => {
+        fakeProgress += Math.random() * 15;
+        if (fakeProgress > 100) fakeProgress = 100;
+        progress.style.width = fakeProgress + "%";
+
+        if (fakeProgress === 100) {
+          clearInterval(interval);
+        }
+      }, 200);
+
+      video.addEventListener("canplaythrough", () => {
+        clearInterval(interval);
+        progress.style.width = "100%";
+        setTimeout(() => {
+          playBtn.style.display = "inline-block";
+        }, 300);
+      });
+
+      playBtn.addEventListener("click", () => {
+        loader.style.display = "none";
+        intro.style.display = "block";
+        video.play();
+      });
+
+      video.addEventListener("ended", () => {
+        intro.style.display = "none";
+        content.style.display = "block";
+        document.body.style.overflow = "auto";
+        document.body.style.height = "auto";
+
+        // Smooth scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // Fallback para móviles donde el video podría no cargar
+      video.addEventListener("error", () => {
+        console.log(
+          "Error cargando el video, mostrando contenido directamente"
+        );
+        loader.style.display = "none";
+        intro.style.display = "none";
+        content.style.display = "block";
+        document.body.style.overflow = "auto";
+        document.body.style.height = "auto";
+      });
+
+      // Cuando el video termina
+      video.addEventListener("ended", showMainContent);
+
+      // Cuando se hace clic en saltar
+      skipBtn.addEventListener("click", () => {
+        video.pause(); // Pausar el video
+        showMainContent(); // Mostrar contenido
+      });
+    </script>
+  </body>
 </html>
-

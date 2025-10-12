@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Intro con sonido y loader</title>
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: black;
+    color: white;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  #loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #progressBar {
+    width: 200px;
+    height: 8px;
+    background: #333;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+  #progress {
+    height: 100%;
+    width: 0%;
+    background: #00ff88;
+    transition: width 0.2s;
+  }
+  #playBtn {
+    display: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    background: #00ff88;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  #playBtn:hover { background: #00cc66; }
+  #intro, #content { display: none; }
+  #intro video {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+  }
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div>Cargando video...</div>
+  <div id="progressBar"><div id="progress"></div></div>
+  <button id="playBtn">Reproducir</button>
+</div>
+
+<div id="intro">
+  <video id="introVideo">
+    <source src="bch-transaction.mp4" type="video/mp4">
+    Tu navegador no soporta el video.
+  </video>
+</div>
+
+<div id="content">
+  <h1>Bienvenido a mi página</h1>
+  <p>Contenido principal después del video.</p>
+</div>
+
+<script>
+  const video = document.getElementById('introVideo');
+  const loader = document.getElementById('loader');
+  const progress = document.getElementById('progress');
+  const playBtn = document.getElementById('playBtn');
+  const intro = document.getElementById('intro');
+  const content = document.getElementById('content');
+
+  // Simulación de barra de progreso (no hay API exacta de progreso de video local)
+  let fakeProgress = 0;
+  const interval = setInterval(() => {
+    fakeProgress += 5;
+    if (fakeProgress > 100) fakeProgress = 100;
+    progress.style.width = fakeProgress + '%';
+  }, 100);
+
+  video.addEventListener('canplaythrough', () => {
+    clearInterval(interval);
+    progress.style.width = '100%';
+    playBtn.style.display = 'block';
+  });
+
+  playBtn.addEventListener('click', () => {
+    loader.style.display = 'none';
+    intro.style.display = 'block';
+    video.play();
+  });
+
+  video.addEventListener('ended', () => {
+    intro.style.display = 'none';
+    content.style.display = 'block';
+    document.body.style.overflow = 'auto';
+  });
+</script>
+
+</body>
+</html>
+

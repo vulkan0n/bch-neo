@@ -429,6 +429,62 @@
           font-size: 14px;
         }
       }
+
+      /* Contenedor de la imagen hero */
+      .hero-image-container {
+        position: relative;
+        z-index: 1;
+        margin-top: 3rem;
+        max-width: 800px;
+        width: 100%;
+        animation: fadeInUp 1s ease-out 0.5s both;
+      }
+
+      .hero-image {
+        width: 100%;
+        height: auto;
+        display: block;
+        filter: drop-shadow(0 20px 40px rgba(0, 255, 136, 0.2));
+        transition: transform 0.3s ease;
+      }
+
+      /* Efecto hover opcional */
+      .hero-image:hover {
+        transform: scale(1.02);
+      }
+
+      /* Responsive para tablets */
+      @media (max-width: 768px) {
+        .hero-image-container {
+          max-width: 600px;
+          margin-top: 2rem;
+        }
+      }
+
+      /* Responsive para móviles */
+      @media (max-width: 480px) {
+        .hero-image-container {
+          max-width: 100%;
+          padding: 0 1rem;
+          margin-top: 1.5rem;
+        }
+
+        .hero-image {
+          filter: drop-shadow(0 10px 20px rgba(0, 255, 136, 0.15));
+        }
+      }
+
+      /* Animación de entrada */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
     </style>
   </head>
   <body>
@@ -449,11 +505,21 @@
     <div id="content">
       <!-- Hero Section -->
       <section class="hero">
-        <h1>Bitcoin Cash: Paga rápido. Con el dinero del futuro.</h1>
+        <h1>
+          Bitcoin Cash <br />
+          Paga rápido. Con el dinero del futuro.
+        </h1>
         <p class="subtitle">
           Únete a la criptomoneda pensada para ser dinero digital —
           transferencias instantáneas y comisiones bajas.
         </p>
+        <div class="hero-image-container">
+          <img
+            src="hero-morpheus.png"
+            alt="Bitcoin Cash vs Sistema Tradicional"
+            class="hero-image"
+          />
+        </div>
       </section>
 
       <!-- ¿Qué es BCH? -->
@@ -767,6 +833,12 @@
         loader.style.display = "none";
         intro.style.display = "block";
         video.play();
+
+        // Ajustar posición del botón skip según dispositivo
+        if (isMobile()) {
+          skipBtn.style.top = "20px";
+          skipBtn.style.bottom = "auto";
+        }
       });
 
       video.addEventListener("ended", () => {

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bitcoin Cash - Paga rápido. Paga barato. Paga tú.</title>
+    <title>Bienvenido a Bitcoin Cash</title>
     <style>
       * {
         margin: 0;
@@ -343,6 +343,11 @@
         .step::before {
           left: 0;
         }
+        #intro video {
+          object-fit: contain; /* O 'cover' según prefieras */
+          width: 100%;
+          height: 100%;
+        }
       }
 
       /* Blockquote styling */
@@ -435,7 +440,7 @@
 
     <div id="intro">
       <video id="introVideo">
-        <source src="bch-transaction.mp4" type="video/mp4" />
+        <!-- <source src="horizontal-con-subs.mp4" type="video/mp4" /> -->
         Tu navegador no soporta el video.
       </video>
       <button id="skipBtn">Saltar video →</button>
@@ -444,7 +449,7 @@
     <div id="content">
       <!-- Hero Section -->
       <section class="hero">
-        <h1>Bitcoin Cash: paga rápido. Paga barato. Paga tú.</h1>
+        <h1>Bitcoin Cash: Paga rápido. Con el dinero del futuro.</h1>
         <p class="subtitle">
           Únete a la criptomoneda pensada para ser dinero digital —
           transferencias instantáneas y comisiones bajas.
@@ -651,27 +656,26 @@
             Explicaciones claras sobre cómo funciona Bitcoin Cash, cómo usarlo
             en la vida diaria y su potencial económico.
           </p>
-          <a
-            href="https://www.youtube.com/playlist?list=PL1xuNQ6OKjfGksvC0TcLXwVx7cOAbeo3c"
-            >Ver playlist completa →</a
+          <a href="https://www.youtube.com/watch?v=6JrVWA67wWw"
+            >¿Qué es Bitcoin Cash (BCH)? →</a
           >
         </div>
       </section>
 
       <!-- Donaciones -->
-      <section class="section">
-        <div class="donation-box">
-          <h2>💚 Donaciones</h2>
-          <p>
-            Si te gusta el proyecto o querés apoyar la difusión de Bitcoin Cash,
-            podés enviar una donación:
-          </p>
-          <p><strong>Dirección BCH:</strong></p>
-          <div class="donation-address">
-            bitcoincash:qqmepxlpeq0ruzqf4kz7uwckhjgu67py45nrmyxcvm
-          </div>
-        </div>
-      </section>
+      <!-- <section class="section"> -->
+      <!--   <div class="donation-box"> -->
+      <!--     <h2>💚 Donaciones</h2> -->
+      <!--     <p> -->
+      <!--       Si te gusta el proyecto o querés apoyar la difusión de Bitcoin Cash, -->
+      <!--       podés enviar una donación: -->
+      <!--     </p> -->
+      <!--     <p><strong>Dirección BCH:</strong></p> -->
+      <!--     <div class="donation-address"> -->
+      <!--       bitcoincash:qqmepxlpeq0ruzqf4kz7uwckhjgu67py45nrmyxcvm -->
+      <!--     </div> -->
+      <!--   </div> -->
+      <!-- </section> -->
 
       <!-- Footer -->
       <footer>
@@ -689,6 +693,46 @@
       const intro = document.getElementById("intro");
       const content = document.getElementById("content");
       const skipBtn = document.getElementById("skipBtn");
+
+      // Detectar si es móvil
+      function isMobile() {
+        // Múltiples métodos de detección para mayor precisión
+        const userAgent =
+          navigator.userAgent || navigator.vendor || window.opera;
+
+        // Detectar por user agent
+        const mobileRegex =
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+
+        // Detectar por ancho de pantalla (menos de 768px generalmente es móvil)
+        const screenWidth = window.innerWidth <= 768;
+
+        // Detectar por capacidad táctil
+        const hasTouch =
+          "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+        return mobileRegex.test(userAgent) || (screenWidth && hasTouch);
+      }
+
+      // Seleccionar y cargar el video apropiado
+      function loadAppropriateVideo() {
+        const videoSource = document.createElement("source");
+        videoSource.type = "video/mp4";
+
+        if (isMobile()) {
+          videoSource.src = "vertical-con-subs.mp4";
+          console.log("Cargando video vertical para móvil");
+        } else {
+          videoSource.src = "horizontal-con-subs.mp4";
+          console.log("Cargando video horizontal para escritorio");
+        }
+
+        video.appendChild(videoSource);
+        video.load(); // Importante: cargar el video después de agregar el source
+      }
+
+      // Llamar a la función para cargar el video apropiado
+      loadAppropriateVideo();
 
       // Función para mostrar el contenido principal
       function showMainContent() {

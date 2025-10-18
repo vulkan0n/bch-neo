@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <title>Bienvenido a Bitcoin Cash</title>
     <style>
       * {
@@ -489,7 +490,7 @@
   </head>
   <body>
     <div id="loader">
-      <div>⚡ Cargando video...</div>
+      <div id="loaderText">⚡ Cargando video...</div>
       <div id="progressBar"><div id="progress"></div></div>
       <button id="playBtn">▶ Reproducir</button>
     </div>
@@ -555,12 +556,6 @@
             <h4>Código abierto y descentralizado</h4>
             <p>Sin control centralizado, verdadera libertad financiera</p>
           </div>
-        </div>
-
-        <div style="text-align: center">
-          <a href="https://whybitcoincash.com/es" class="cta-button"
-            >Aprendé más →</a
-          >
         </div>
       </section>
 
@@ -726,6 +721,13 @@
             >¿Qué es Bitcoin Cash (BCH)? →</a
           >
         </div>
+        <div style="text-align: center">
+          <a
+            href="https://www.youtube.com/watch?v=Vq9bCuM0YQ8"
+            class="cta-button"
+            >Aprendé más →</a
+          >
+        </div>
       </section>
 
       <!-- Donaciones -->
@@ -818,12 +820,19 @@
 
         if (fakeProgress === 100) {
           clearInterval(interval);
+          const loaderText = document.getElementById("loaderText");
+          if (loaderText) loaderText.textContent = "✅ Video listo";
         }
       }, 200);
 
       video.addEventListener("canplaythrough", () => {
         clearInterval(interval);
         progress.style.width = "100%";
+
+        // Cambiar el texto cuando el video está listo
+        const loaderText = document.getElementById("loaderText");
+        loaderText.textContent = "✅ Video listo";
+
         setTimeout(() => {
           playBtn.style.display = "inline-block";
         }, 300);

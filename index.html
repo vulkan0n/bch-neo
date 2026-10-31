@@ -3,8 +3,45 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <title>Bienvenido a Bitcoin Cash</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <title>Encontraste uno · Bitcoin Cash</title>
+    <meta
+      name="description"
+      content="Alguien dejó este sticker a propósito. Bitcoin Cash es dinero digital peer-to-peer: pagás rápido, barato y sin bancos. Aprendé a usarlo en 5 minutos."
+    />
+    <meta name="author" content="Comunidad Bitcoin Cash Argentina" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="canonical" href="https://vulkan0n.github.io/bch-neo/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Bitcoin Cash" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:url" content="https://vulkan0n.github.io/bch-neo/" />
+    <meta property="og:title" content="Encontraste uno · Bitcoin Cash" />
+    <meta
+      property="og:description"
+      content="Alguien dejó este sticker a propósito. Pagá rápido. Pagá barato. Pagá vos."
+    />
+    <meta
+      property="og:image"
+      content="https://vulkan0n.github.io/bch-neo/hero-morpheus.png"
+    />
+    <meta
+      property="og:image:alt"
+      content="Bitcoin Cash frente al sistema tradicional"
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Encontraste uno · Bitcoin Cash" />
+    <meta
+      name="twitter:description"
+      content="Alguien dejó este sticker a propósito. Pagá rápido. Pagá barato. Pagá vos."
+    />
+    <meta
+      name="twitter:image"
+      content="https://vulkan0n.github.io/bch-neo/hero-morpheus.png"
+    />
     <style>
       * {
         margin: 0;
@@ -12,9 +49,12 @@
         box-sizing: border-box;
       }
 
+      html {
+        scroll-behavior: smooth;
+      }
+
       body {
         margin: 0;
-        overflow: hidden;
         background: #0a0a0a;
         color: #e0e0e0;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -22,75 +62,8 @@
         line-height: 1.6;
       }
 
-      /* Loader y Video */
-      #loader {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        background: black;
-      }
-
-      #loader > div:first-child {
-        font-size: 18px;
-        margin-bottom: 20px;
-        color: #00ff88;
-      }
-
-      #progressBar {
-        width: 300px;
-        height: 10px;
-        background: #1a1a1a;
-        border-radius: 5px;
-        overflow: hidden;
-        margin-top: 10px;
-      }
-
-      #progress {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(90deg, #00ff88, #00cc66);
-        transition: width 0.3s ease;
-      }
-
-      #playBtn {
-        display: none;
-        margin-top: 30px;
-        padding: 15px 40px;
-        font-size: 18px;
-        font-weight: 600;
-        background: linear-gradient(135deg, #00ff88, #00cc66);
-        color: black;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: all 0.3s;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
-
-      #playBtn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
-      }
-
-      #intro {
-        display: none;
-        position: relative;
-        width: 100vw;
-        height: 100vh;
-      }
-
-      #intro video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
       /* Contenido Principal */
       #content {
-        display: none;
         width: 100%;
         max-width: 100%;
         background: #0a0a0a;
@@ -333,8 +306,16 @@
 
       footer .privacy-note {
         font-size: 0.8rem;
+        color: #8a8a8a;
         margin-top: 1.25rem;
-        opacity: 0.65;
+      }
+
+      footer .footer-secret {
+        font-family: "Courier New", monospace;
+        font-size: 0.85rem;
+        color: #00ff88;
+        opacity: 0.8;
+        margin-bottom: 1.5rem;
       }
 
       /* Responsive */
@@ -349,11 +330,6 @@
 
         .step::before {
           left: 0;
-        }
-        #intro video {
-          object-fit: contain; /* O 'cover' según prefieras */
-          width: 100%;
-          height: 100%;
         }
       }
 
@@ -386,63 +362,12 @@
         font-weight: bold;
       }
 
-      #skipBtn {
-        position: absolute;
-        bottom: 30px;
-        right: 30px;
-        padding: 12px 25px;
-        font-size: 16px;
-        background: rgba(0, 0, 0, 0.7);
-        color: #00ff88;
-        border: 2px solid #00ff88;
-        border-radius: 30px;
-        cursor: pointer;
-        transition: all 0.3s;
-        z-index: 10;
-        backdrop-filter: blur(10px);
-        font-weight: 600;
-        letter-spacing: 0.5px;
-      }
-
-      #skipBtn:hover {
-        background: #00ff88;
-        color: black;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
-      }
-
-      /* Animación de entrada */
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      #skipBtn {
-        animation: fadeInUp 0.5s ease-out 1s both; /* Aparece después de 1 segundo */
-      }
-
-      /* Para móviles, posición diferente */
-      @media (max-width: 768px) {
-        #skipBtn {
-          bottom: 20px;
-          right: 20px;
-          padding: 10px 20px;
-          font-size: 14px;
-        }
-      }
-
       /* Contenedor de la imagen hero */
       .hero-image-container {
         position: relative;
         z-index: 1;
-        margin-top: 3rem;
-        max-width: 800px;
+        margin-top: 2.5rem;
+        max-width: 680px;
         width: 100%;
         animation: fadeInUp 1s ease-out 0.5s both;
       }
@@ -481,15 +406,205 @@
         }
       }
 
-      /* Animación de entrada */
+      /* Etiquetas de capítulo — estética de expediente */
       @keyframes fadeInUp {
         from {
           opacity: 0;
-          transform: translateY(30px);
+          transform: translateY(20px);
         }
         to {
           opacity: 1;
           transform: translateY(0);
+        }
+      }
+
+      .eyebrow,
+      .chapter {
+        font-family: "Courier New", monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: #00ff88;
+      }
+
+      .eyebrow {
+        font-size: 0.85rem;
+        opacity: 0.85;
+        margin-bottom: 1.25rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .eyebrow::before {
+        content: "// ";
+        opacity: 0.6;
+      }
+
+      .chapter {
+        font-size: 0.78rem;
+        opacity: 0.7;
+        text-align: center;
+        margin-bottom: 0.75rem;
+      }
+
+      .hero-tagline {
+        font-size: clamp(1.05rem, 2.5vw, 1.4rem);
+        color: #e8e8e8;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-caption {
+        font-family: "Courier New", monospace;
+        font-size: 0.82rem;
+        color: #8a8a8a;
+        margin-top: 0.85rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .ghost-button {
+        display: inline-block;
+        padding: 13px 28px;
+        background: transparent;
+        color: #00ff88;
+        border: 2px solid #00ff88;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+      }
+
+      .ghost-button:hover {
+        background: rgba(0, 255, 136, 0.1);
+        color: #00ff88;
+        text-decoration: none;
+      }
+
+      /* Aparición escalonada del hero (revelación) */
+      .hero .eyebrow {
+        animation: fadeInUp 0.5s ease-out both;
+      }
+
+      .hero h1 {
+        animation: fadeInUp 0.6s ease-out 0.08s both;
+      }
+
+      .hero .subtitle {
+        animation: fadeInUp 0.6s ease-out 0.16s both;
+      }
+
+      .hero-tagline {
+        animation: fadeInUp 0.6s ease-out 0.24s both;
+      }
+
+      .hero-actions {
+        animation: fadeInUp 0.6s ease-out 0.32s both;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+
+      /* Video opt-in: no se descarga hasta que se toca el botón */
+      .video-frame {
+        position: relative;
+        max-width: 900px;
+        margin: 2.5rem auto 0;
+        aspect-ratio: 16 / 9;
+        background: #111;
+        border: 1px solid #333;
+        border-radius: 14px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .video-frame video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #000;
+      }
+
+      .play-big {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.85rem;
+        width: 100%;
+        height: 100%;
+        padding: 2rem;
+        background: transparent;
+        border: none;
+        color: #00ff88;
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .play-big:hover {
+        background: rgba(0, 255, 136, 0.06);
+      }
+
+      .play-big .play-icon {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        border: 2px solid #00ff88;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        padding-left: 5px;
+      }
+
+      .video-note {
+        text-align: center;
+        color: #8a8a8a;
+        font-size: 0.82rem;
+        margin-top: 1rem;
+      }
+
+      /* Foco visible */
+      a:focus-visible,
+      button:focus-visible {
+        outline: 2px solid #00ff88;
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 768px) {
+        .video-frame {
+          aspect-ratio: 9 / 16;
+          max-width: 420px;
+          max-height: 78vh;
         }
       }
     </style>
@@ -500,42 +615,48 @@
     ></script>
   </head>
   <body>
-    <div id="loader">
-      <div id="loaderText">⚡ Cargando video...</div>
-      <div id="progressBar"><div id="progress"></div></div>
-      <button id="playBtn">▶ Reproducir</button>
-    </div>
-
-    <div id="intro">
-      <video id="introVideo">
-        <!-- <source src="horizontal-con-subs.mp4" type="video/mp4" /> -->
-        Tu navegador no soporta el video.
-      </video>
-      <button id="skipBtn">Saltar video →</button>
-    </div>
-
     <div id="content">
-      <!-- Hero Section -->
+      <!-- Hero: el momento del descubrimiento -->
       <section class="hero">
-        <h1>
-          Bitcoin Cash <br />
-          Paga rápido. Con el dinero del futuro.
-        </h1>
+        <p class="eyebrow">No es casualidad</p>
+        <h1>Encontraste uno.</h1>
         <p class="subtitle">
-          Únete a la criptomoneda pensada para ser dinero digital —
-          transferencias instantáneas y comisiones bajas.
+          Alguien dejó este sticker ahí a propósito. Esto es Bitcoin Cash:
+          dinero digital que no depende de bancos ni de intermediarios.
         </p>
+        <p class="hero-tagline">Pagá rápido. Pagá barato. Pagá vos.</p>
+        <div class="hero-actions">
+          <a href="#empezar" class="cta-button">Empezar en 5 minutos</a>
+          <a href="#historia" class="ghost-button">Ver la historia</a>
+        </div>
         <div class="hero-image-container">
           <img
             src="hero-morpheus.png"
-            alt="Bitcoin Cash vs Sistema Tradicional"
+            alt="Morpheus ofreciendo dos opciones: el sistema tradicional con transferencias bloqueadas y Bitcoin Cash"
             class="hero-image"
           />
+          <p class="hero-caption">Tomá la pastilla verde.</p>
         </div>
+      </section>
+
+      <!-- La historia (video opt-in) -->
+      <section class="section" id="historia">
+        <p class="chapter">01 / La historia</p>
+        <h2>¿Por qué existe esto?</h2>
+        <div class="video-frame" id="videoFrame">
+          <button id="storyBtn" class="play-big" type="button">
+            <span class="play-icon" aria-hidden="true">▶</span>
+            <span>Ver la historia · 60 segundos</span>
+          </button>
+        </div>
+        <p class="video-note">
+          El video se descarga solo si tocás el botón. Nada corre solo.
+        </p>
       </section>
 
       <!-- ¿Qué es BCH? -->
       <section class="section">
+        <p class="chapter">02 / Qué es</p>
         <h2>¿Qué es Bitcoin Cash?</h2>
         <p
           style="
@@ -544,7 +665,7 @@
             margin: 0 auto 3rem;
             font-size: 1.2rem;
           "
-        >Bitcoin Cash (BCH) es una criptomoneda diseñada para pagos reales del día a día. Con confirmaciones rápidas, comisiones bajas y sin intermediarios, permite transacciones simples y directas entre personas. Desde 2009 su foco es la usabilidad: operaciones al instante, sin fricciones y prácticamente sin costos.
+        >Bitcoin Cash (BCH) es una criptomoneda diseñada para pagos reales del día a día. Con confirmaciones rápidas, comisiones bajas y sin intermediarios, permite transacciones simples y directas entre personas. Nació en 2017 como una bifurcación de Bitcoin enfocada en escalar para el uso cotidiano: operaciones al instante, sin fricciones y prácticamente sin costos.
                   </p>
 
         <div class="features">
@@ -567,8 +688,9 @@
       </section>
 
       <!-- Cómo empezar -->
-      <section class="section">
-        <h2>🚀 En 5 minutos: tener tu primer BCH</h2>
+      <section class="section" id="empezar">
+        <p class="chapter">03 / Tu primera vez</p>
+        <h2>Tu primer BCH en 5 minutos</h2>
 
         <div class="steps">
           <div class="step">
@@ -639,7 +761,8 @@
 
       <!-- Comercios -->
       <section class="section">
-        <h2>🏪 Aceptá Bitcoin Cash en tu negocio</h2>
+        <p class="chapter">04 / Comercios</p>
+        <h2>Aceptá Bitcoin Cash en tu negocio</h2>
         <p
           style="
             text-align: center;
@@ -687,7 +810,8 @@
 
       <!-- Comunidad -->
       <section class="section">
-        <h2>📩 Conectate con la comunidad de Bitcoin Cash</h2>
+        <p class="chapter">05 / La comunidad</p>
+        <h2>Conectate con la comunidad</h2>
         <p
           style="
             text-align: center;
@@ -774,7 +898,10 @@
 
       <!-- Footer -->
       <footer>
-        <p>© 2025 — Sitio de promoción de Bitcoin Cash (BCH)</p>
+        <p class="footer-secret">
+          Si encontraste este sticker, no fue casualidad. Contale a alguien.
+        </p>
+        <p>© 2026 — Sitio de promoción de Bitcoin Cash (BCH)</p>
         <p>Proyecto comunitario sin fines de lucro</p>
         <p>Hecho con 💚 en Argentina</p>
         <p class="privacy-note">
@@ -785,14 +912,6 @@
     </div>
 
     <script>
-      const video = document.getElementById("introVideo");
-      const loader = document.getElementById("loader");
-      const progress = document.getElementById("progress");
-      const playBtn = document.getElementById("playBtn");
-      const intro = document.getElementById("intro");
-      const content = document.getElementById("content");
-      const skipBtn = document.getElementById("skipBtn");
-
       // Eventos de analítica anónima (GoatCounter). El guard evita romper la
       // página si count.js todavía no cargó o fue bloqueado.
       function track(eventName, title) {
@@ -807,127 +926,52 @@
         }
       }
 
-      // Detectar si es móvil
+      // Detectar si es móvil para elegir el encuadre del video
       function isMobile() {
-        // Múltiples métodos de detección para mayor precisión
         const userAgent =
           navigator.userAgent || navigator.vendor || window.opera;
-
-        // Detectar por user agent
         const mobileRegex =
           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-
-        // Detectar por ancho de pantalla (menos de 768px generalmente es móvil)
         const screenWidth = window.innerWidth <= 768;
-
-        // Detectar por capacidad táctil
         const hasTouch =
           "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
         return mobileRegex.test(userAgent) || (screenWidth && hasTouch);
       }
 
-      // Seleccionar y cargar el video apropiado
-      function loadAppropriateVideo() {
-        const videoSource = document.createElement("source");
-        videoSource.type = "video/mp4";
+      // El video es opt-in: nada se descarga hasta que se toca el botón.
+      const storyBtn = document.getElementById("storyBtn");
+      const videoFrame = document.getElementById("videoFrame");
 
-        if (isMobile()) {
-          videoSource.src = "vertical-con-subs.mp4";
-          console.log("Cargando video vertical para móvil");
-        } else {
-          videoSource.src = "horizontal-con-subs.mp4";
-          console.log("Cargando video horizontal para escritorio");
-        }
-
-        video.appendChild(videoSource);
-        video.load(); // Importante: cargar el video después de agregar el source
+      function storySource() {
+        return isMobile() ? "vertical-con-subs.mp4" : "horizontal-con-subs.mp4";
       }
 
-      // Llamar a la función para cargar el video apropiado
-      loadAppropriateVideo();
+      storyBtn.addEventListener("click", () => {
+        const video = document.createElement("video");
+        video.controls = true;
+        video.autoplay = true;
+        video.playsInline = true;
+        video.setAttribute("playsinline", "");
+        video.preload = "auto";
 
-      // Función para mostrar el contenido principal
-      function showMainContent() {
-        intro.style.display = "none";
-        content.style.display = "block";
-        document.body.style.overflow = "auto";
-        document.body.style.height = "auto";
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
+        video.addEventListener("ended", () => {
+          track("video-ended", "Terminó el video intro");
+        });
+        video.addEventListener("error", () => {
+          track("video-error", "Error cargando el video intro");
+        });
 
-      // Simulación de barra de progreso
-      let fakeProgress = 0;
-      const interval = setInterval(() => {
-        fakeProgress += Math.random() * 15;
-        if (fakeProgress > 100) fakeProgress = 100;
-        progress.style.width = fakeProgress + "%";
+        video.src = storySource();
+        videoFrame.replaceChildren(video);
 
-        if (fakeProgress === 100) {
-          clearInterval(interval);
-          const loaderText = document.getElementById("loaderText");
-          if (loaderText) loaderText.textContent = "✅ Video listo";
-        }
-      }, 200);
-
-      video.addEventListener("canplaythrough", () => {
-        clearInterval(interval);
-        progress.style.width = "100%";
-
-        // Cambiar el texto cuando el video está listo
-        const loaderText = document.getElementById("loaderText");
-        loaderText.textContent = "✅ Video listo";
-
-        setTimeout(() => {
-          playBtn.style.display = "inline-block";
-        }, 300);
-      });
-
-      playBtn.addEventListener("click", () => {
-        loader.style.display = "none";
-        intro.style.display = "block";
-        video.play();
         track("video-play", "Reprodujo el video intro");
 
-        // Ajustar posición del botón skip según dispositivo
-        if (isMobile()) {
-          skipBtn.style.top = "20px";
-          skipBtn.style.bottom = "auto";
+        const playing = video.play();
+        if (playing && typeof playing.catch === "function") {
+          // Si el navegador bloquea el autoplay, los controles nativos sirven igual.
+          playing.catch(() => {});
         }
-      });
-
-      video.addEventListener("ended", () => {
-        intro.style.display = "none";
-        content.style.display = "block";
-        document.body.style.overflow = "auto";
-        document.body.style.height = "auto";
-        track("video-ended", "Terminó el video intro");
-
-        // Smooth scroll to top
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-
-      // Fallback para móviles donde el video podría no cargar
-      video.addEventListener("error", () => {
-        console.log(
-          "Error cargando el video, mostrando contenido directamente"
-        );
-        loader.style.display = "none";
-        intro.style.display = "none";
-        content.style.display = "block";
-        document.body.style.overflow = "auto";
-        document.body.style.height = "auto";
-        track("video-error", "Error cargando el video intro");
-      });
-
-      // Cuando el video termina
-      video.addEventListener("ended", showMainContent);
-
-      // Cuando se hace clic en saltar
-      skipBtn.addEventListener("click", () => {
-        video.pause(); // Pausar el video
-        showMainContent(); // Mostrar contenido
-        track("video-skip", "Saltó el video intro");
       });
     </script>
   </body>

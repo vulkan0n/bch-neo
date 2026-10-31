@@ -331,6 +331,12 @@
         line-height: 1.8;
       }
 
+      footer .privacy-note {
+        font-size: 0.8rem;
+        margin-top: 1.25rem;
+        opacity: 0.65;
+      }
+
       /* Responsive */
       @media (max-width: 768px) {
         .section {
@@ -487,6 +493,11 @@
         }
       }
     </style>
+    <script
+      data-goatcounter="https://bch-neo.goatcounter.com/count"
+      async
+      src="https://gc.zgo.at/count.js"
+    ></script>
   </head>
   <body>
     <div id="loader">
@@ -571,6 +582,7 @@
                 <strong
                   ><a
                     href="https://play.google.com/store/apps/details?id=cash.selene.app"
+                    data-goatcounter-click="wallet-selene"
                     >Selene Wallet</a
                   ></strong
                 >
@@ -581,6 +593,7 @@
                 <strong
                   ><a
                     href="https://play.google.com/store/apps/details?id=app.purelypeer.cash&hl=en-US"
+                    data-goatcounter-click="wallet-purelypeer"
                     >PurelyPeer</a
                   ></strong
                 >
@@ -663,7 +676,10 @@
             Descubrí todos los negocios, cafés y servicios que aceptan Bitcoin
             Cash en Argentina:
           </p>
-          <a href="https://mapa.bcharg.com/" class="cta-button"
+          <a
+            href="https://mapa.bcharg.com/"
+            class="cta-button"
+            data-goatcounter-click="mapa-comercios"
             >👉 Ver mapa de comercios</a
           >
         </div>
@@ -690,12 +706,20 @@
           <div class="community-link">
             <strong>🇦🇷 Bitcoin Cash Argentina</strong>
             <p>Grupo de Telegram local</p>
-            <a href="https://t.me/BCHArgentina">Unirse al grupo →</a>
+            <a
+              href="https://t.me/BCHArgentina"
+              data-goatcounter-click="telegram-argentina"
+              >Unirse al grupo →</a
+            >
           </div>
           <div class="community-link">
             <strong>🌐 Bitcoin Cash Internacional</strong>
             <p>Comunidad global en Telegram</p>
-            <a href="https://t.me/bchchannel">Unirse al canal →</a>
+            <a
+              href="https://t.me/bchchannel"
+              data-goatcounter-click="telegram-internacional"
+              >Unirse al canal →</a
+            >
           </div>
         </div>
 
@@ -703,7 +727,11 @@
         <div class="community-link">
           <strong>🐦 Bitcoin Cash News en Español</strong>
           <p>Seguí las últimas noticias en Twitter/X</p>
-          <a href="https://x.com/bchnewsespanol">Seguir en X →</a>
+          <a
+            href="https://x.com/bchnewsespanol"
+            data-goatcounter-click="x-bchnews"
+            >Seguir en X →</a
+          >
         </div>
 
         <h3>🎓 Educación y contenido</h3>
@@ -713,7 +741,9 @@
             Explicaciones claras sobre cómo funciona Bitcoin Cash, cómo usarlo
             en la vida diaria y su potencial económico.
           </p>
-          <a href="https://www.youtube.com/watch?v=6JrVWA67wWw"
+          <a
+            href="https://www.youtube.com/watch?v=6JrVWA67wWw"
+            data-goatcounter-click="youtube-que-es-bch"
             >¿Qué es Bitcoin Cash (BCH)? →</a
           >
         </div>
@@ -721,6 +751,7 @@
           <a
             href="https://www.youtube.com/watch?v=Vq9bCuM0YQ8"
             class="cta-button"
+            data-goatcounter-click="youtube-aprende-mas"
             >Aprendé más →</a
           >
         </div>
@@ -746,6 +777,10 @@
         <p>© 2025 — Sitio de promoción de Bitcoin Cash (BCH)</p>
         <p>Proyecto comunitario sin fines de lucro</p>
         <p>Hecho con 💚 en Argentina</p>
+        <p class="privacy-note">
+          Sin cookies ni seguimiento personal. Solo contamos visitas de forma
+          anónima.
+        </p>
       </footer>
     </div>
 
@@ -757,6 +792,20 @@
       const intro = document.getElementById("intro");
       const content = document.getElementById("content");
       const skipBtn = document.getElementById("skipBtn");
+
+      // Eventos de analítica anónima (GoatCounter). El guard evita romper la
+      // página si count.js todavía no cargó o fue bloqueado.
+      function track(eventName, title) {
+        const gcReady =
+          window.goatcounter && typeof window.goatcounter.count === "function";
+        if (gcReady) {
+          window.goatcounter.count({
+            path: eventName,
+            title: title,
+            event: true,
+          });
+        }
+      }
 
       // Detectar si es móvil
       function isMobile() {
@@ -838,6 +887,7 @@
         loader.style.display = "none";
         intro.style.display = "block";
         video.play();
+        track("video-play", "Reprodujo el video intro");
 
         // Ajustar posición del botón skip según dispositivo
         if (isMobile()) {
@@ -851,6 +901,7 @@
         content.style.display = "block";
         document.body.style.overflow = "auto";
         document.body.style.height = "auto";
+        track("video-ended", "Terminó el video intro");
 
         // Smooth scroll to top
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -866,6 +917,7 @@
         content.style.display = "block";
         document.body.style.overflow = "auto";
         document.body.style.height = "auto";
+        track("video-error", "Error cargando el video intro");
       });
 
       // Cuando el video termina
@@ -875,6 +927,7 @@
       skipBtn.addEventListener("click", () => {
         video.pause(); // Pausar el video
         showMainContent(); // Mostrar contenido
+        track("video-skip", "Saltó el video intro");
       });
     </script>
   </body>
